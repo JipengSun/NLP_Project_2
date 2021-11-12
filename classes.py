@@ -6,6 +6,7 @@ class Ingredient:
         self.name = ingredient
         self.quantity = 0
         self.unit = ""
+        self.restrictions = []
         # self.descriptor = ""
         # self.preparation = ""
 
@@ -14,5 +15,10 @@ class Ingredient:
 
     def set_unit(self, m):
         self.unit = m
+    
+    def set_restrictions(self, r):
+        self.restrictions = r
+
+    
 
     
