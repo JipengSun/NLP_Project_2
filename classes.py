@@ -18,6 +18,9 @@ class Ingredient:
     
     def set_restrictions(self, r):
         self.restrictions = r
+    
+    def isSpice(self):
+        return self.unit.lower() in ["teaspoon", "tsp", "tablespoon", "tbsp"]
 
     
 
