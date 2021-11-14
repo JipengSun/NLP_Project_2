@@ -24,4 +24,5 @@ class Ingredient:
 
     
 
-    
+    def get_ingredient_name(self):
+        return self.name
