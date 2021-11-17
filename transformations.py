@@ -1,7 +1,20 @@
 #tranformations
 
+from nltk.probability import DictionaryConditionalProbDist
+
+
 def make_vegetarian(recipe):
     #replace meats with vegetarian alternatives
+    meats_dict = ['chicken', 'beef', 'pork', 'lamb', 'fish', 'salmon']
+    meat_alternatives = ['tofu', 'seitan', 'beans', 'lentils']
+
+    #go through ingredients, replace meats with selected alternative [maybe]
+    #go through steps, replace meats with selected alternatives
+    #look at quantities and maybe change if it says "1 piece of chicken"
+
+    #what if it says 'chicken breast'? use dependency parser? to replace both at the same time
+    #print what the changes we made were - maybe call function to print out original recipe
+    #print all transformed steps
 
     return 
 
