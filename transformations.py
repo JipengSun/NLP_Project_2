@@ -8,6 +8,28 @@ def make_vegetarian(recipe):
 def make_healthy(recipe):
     #replace unhealthy foods with healthy alternatives
     #replace frying with alternative method
+    sugar = []
+    unhealthy_oil = []
+    trans_fat = ['vegetable oil','fried food','chips','creamer','margarine']
+    saturated_fat = ['cheese','coconut oil','whole milk','red meat']
+    salt = []
+
+    unhealthy_ingredient_data = {
+        "sugar":[],
+        "fat":[],
+        "red meat":[]
+    }
+
+    vegetables = []
+    fruits = []
+    grains = ['quinoa','corn','millet','brown rice']
+    protein = ['lean meat','eggs','nuts','seeds','soy products']
+    healthy_oil = ['olive','flaxseed','canola','aocado']
+
+    healthy_ingredient_data = {
+        "vegetables"
+    }
+
     
     return 
 
