@@ -11,10 +11,11 @@ def make_vegetarian(recipe_url):
     #get recipe
     r = get_recipe_json.get_recipe_json(recipe_url)
     
+
     with open('./raw_recipe.json') as f:
         recipe_data = json.load(f)
 
-    print(recipe_data)
+    print(type(recipe_data))
     #go through ingredients, replace meats with selected alternative [maybe]
     #go through steps, replace meats with selected alternatives
     #look at quantities and maybe change if it says "1 piece of chicken"
