@@ -62,7 +62,7 @@ for v in list_o:
 
 # for f in final_1:
 #     final_list1.extend(f)
-print(final_list1)
+print(set(final_list1))
 
 
     
