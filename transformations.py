@@ -4,12 +4,14 @@ from nltk.probability import DictionaryConditionalProbDist
 import get_recipe_json
 
 
-def make_vegetarian(recipe):
+def make_vegetarian(recipe_url):
     #replace meats with vegetarian alternatives
     meats_dict = ['chicken', 'beef', 'pork', 'lamb', 'fish', 'salmon']
     meat_alternatives = ['tofu', 'seitan', 'beans', 'lentils']
     #get recipe
-    recipe = get_recipe_json(recipe)
+    recipe_json = get_recipe_json.get_recipe_json(recipe_url)
+    recipe_name = recipe_json[0]
+    print(type(recipe_json))
 
 
     #go through ingredients, replace meats with selected alternative [maybe]
@@ -20,7 +22,7 @@ def make_vegetarian(recipe):
     #print what the changes we made were - maybe call function to print out original recipe
     #print all transformed steps
 
-    return 
+    return recipe_json
 
 def make_healthy(recipe):
     #replace unhealthy foods with healthy alternatives
@@ -54,4 +56,5 @@ def scale_recipe(recipe, scale):
     # scale (float to multiply amounts by)
     return
 
- 
+
+make_vegetarian('https://www.allrecipes.com/recipe/172060/hummus-and-prosciutto-wrap/')
