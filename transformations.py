@@ -4,18 +4,61 @@ from nltk.probability import DictionaryConditionalProbDist
 import get_recipe_json
 
 
+def input_check(type, bound):
+    #takes 'num' (for now, maybe add str later), and bound (the max size the number can be)
+    invalid_message = "Invalid choice. Please try again."
+    while True:
+        x = input("> ")
+        if type == "num":
+            if x.isdigit():
+                if int(x) > bound:
+                    print(invalid_message) 
+                else:
+                    print("\n")
+                    return x
+            else: print(invalid_message)
+
+
 def make_vegetarian(recipe_url):
-    #replace meats with vegetarian alternatives
-    meats_dict = ['chicken', 'beef', 'pork', 'lamb', 'fish', 'salmon']
-    meat_alternatives = ['tofu', 'seitan', 'beans', 'lentils']
+    meats_dict = ['chicken', 'beef', 'pork', 'lamb', 'fish', 'salmon', 'Prosciutto']
+    meat_alternatives = ['tofu', 'beans', 'lentils']
+    #get type of alternative
+
+    print("\nWhat kind of meat alternative would you like? (enter number)\n")
+    for alt in range(len(meat_alternatives)):
+        print(str(alt) + ": " + meat_alternatives[alt] + "\n")
+
+    meat_alt = input_check('num', 2)
+    meat_alt = meat_alternatives[int(meat_alt)]
+
     #get recipe
-    r = get_recipe_json.get_recipe_json(recipe_url)
+    recipe_data = get_recipe_json.get_recipe_json(recipe_url)
     
 
-    with open('./raw_recipe.json') as f:
-        recipe_data = json.load(f)
 
-    print(type(recipe_data))
+
+    #fix name
+    recipe_name = recipe_data['name']
+    removed_meats = []
+    for meat in meats_dict:
+        recipe_name = recipe_name.replace(meat, meat_alt)
+        removed_meats.append(meat)
+    recipe_data['name'] = recipe_name
+
+    #fix ingredients
+    for ingredient in recipe_data['ingredients']:
+        for meat in removed_meats:
+            if meat.lower() in ingredient['name'].lower():
+                ingredient['name'] = meat_alt
+                #what to do with units?
+                ingredient['unit'] = ''
+                ingredient['quantity'] = ''
+
+    print(recipe_data)
+    #fix steps
+   
+
+    
     #go through ingredients, replace meats with selected alternative [maybe]
     #go through steps, replace meats with selected alternatives
     #look at quantities and maybe change if it says "1 piece of chicken"
