@@ -10,7 +10,7 @@ def make_vegetarian(recipe_url):
     meat_alternatives = ['tofu', 'seitan', 'beans', 'lentils']
     #get recipe
     r = get_recipe_json.get_recipe_json(recipe_url)
-    recipe_json = 'raw_recipe.json'
+    recipe_json = '/raw_recipe.json'
     print(type(recipe_json))
 
 
