@@ -37,7 +37,7 @@ def get_recipe_json(url):
 
     recipe_json = json.dumps(recipe_data)
 
-    return recipe_json
+    return recipe_data
     #print(recipe_json)
 
     with open('./raw_recipe.json', 'w') as json_file:
