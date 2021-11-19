@@ -1,12 +1,16 @@
 #tranformations
 
 from nltk.probability import DictionaryConditionalProbDist
+import get_recipe_json
 
 
 def make_vegetarian(recipe):
     #replace meats with vegetarian alternatives
     meats_dict = ['chicken', 'beef', 'pork', 'lamb', 'fish', 'salmon']
     meat_alternatives = ['tofu', 'seitan', 'beans', 'lentils']
+    #get recipe
+    recipe = get_recipe_json(recipe)
+
 
     #go through ingredients, replace meats with selected alternative [maybe]
     #go through steps, replace meats with selected alternatives
