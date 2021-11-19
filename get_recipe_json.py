@@ -45,7 +45,7 @@ def get_recipe_json(url):
     with open('./raw_recipe.json') as f:
      data = json.load(f)
 
-    pprint.pprint(data)
+    return data
 
 
-get_recipe_json(url1)
+print(get_recipe_json(url1))
