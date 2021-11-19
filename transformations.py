@@ -1,5 +1,5 @@
 #tranformations
-
+import json
 from nltk.probability import DictionaryConditionalProbDist
 import get_recipe_json
 
@@ -10,10 +10,11 @@ def make_vegetarian(recipe_url):
     meat_alternatives = ['tofu', 'seitan', 'beans', 'lentils']
     #get recipe
     r = get_recipe_json.get_recipe_json(recipe_url)
-    recipe_json = '/raw_recipe.json'
-    print(type(recipe_json))
+    
+    with open('./raw_recipe.json') as f:
+        recipe_data = json.load(f)
 
-
+    print(recipe_data)
     #go through ingredients, replace meats with selected alternative [maybe]
     #go through steps, replace meats with selected alternatives
     #look at quantities and maybe change if it says "1 piece of chicken"
@@ -22,7 +23,7 @@ def make_vegetarian(recipe_url):
     #print what the changes we made were - maybe call function to print out original recipe
     #print all transformed steps
 
-    return recipe_json
+    return 
 
 def make_healthy(recipe):
     #replace unhealthy foods with healthy alternatives
