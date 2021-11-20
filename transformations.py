@@ -70,7 +70,7 @@ def make_vegetarian(recipe_url):
 
     return 
 
-def make_healthy(recipe):
+def make_healthy(recipe_data):
     #replace unhealthy foods with healthy alternatives
     #replace frying with alternative method
     sugar = []
@@ -95,8 +95,10 @@ def make_healthy(recipe):
         "vegetables"
     }
 
-    
-    return 
+    for step in recipe_data['steps']:
+        print (step)
+        
+
 
 def make_indian(recipe):
     #remove all spices, replace with indian spices
@@ -207,3 +209,10 @@ def scale_recipe(recipe, scale):
 
 
 make_kosher('https://www.allrecipes.com/recipe/172060/hummus-and-prosciutto-wrap/')
+make_vegetarian('https://www.allrecipes.com/recipe/172060/hummus-and-prosciutto-wrap/')
+
+test_url = 'https://www.allrecipes.com/recipe/150273/spicy-pimento-cheese-sandwiches-with-avocado-and-bacon/'
+
+recipe_data = get_recipe_json.get_recipe_json(test_url)
+
+make_healthy(recipe_data)
