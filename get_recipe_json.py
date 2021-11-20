@@ -5,6 +5,7 @@ import pprint
 
 url1 = 'https://www.allrecipes.com/recipe/172060/hummus-and-prosciutto-wrap/'
 url2 = 'https://www.allrecipes.com/recipe/143809/best-steak-marinade-in-existence/'
+url3 = 'https://www.allrecipes.com/recipe/150273/spicy-pimento-cheese-sandwiches-with-avocado-and-bacon/'
 
 def get_recipe_json(url):
 
@@ -27,7 +28,10 @@ def get_recipe_json(url):
 
     for item in raw_result['ingredients']:
         ingredient_data = {}
-        ingredient_data['quantity'] = float(item['data-init-quantity'])
+        if item['data-init-quantity'] != '':
+            ingredient_data['quantity'] = float(item['data-init-quantity'])
+        else:
+            ingredient_data['quantity'] = 1
         ingredient_data['unit'] = item['data-unit']
         ingredient_data['name'] = item['data-ingredient']
         recipe_data['ingredients'].append(ingredient_data)
@@ -50,4 +54,4 @@ def get_recipe_json(url):
     return data
 
 
-# print(get_recipe_json(url1))
+print(get_recipe_json(url3))
