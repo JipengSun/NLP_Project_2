@@ -113,6 +113,7 @@ def make_indian(recipe):
 
 def make_kosher(recipe_url):
     print("\n")
+    changes = []
     unkosher = ['pork', "prosciutto", "shrimp", 'lobster', 'crab']
     meats_dict = ['chicken', 'beef', 'lamb', 'fish', 'salmon']
     dairy_dict = ['cheese', 'milk', 'cream']
@@ -150,6 +151,9 @@ def make_kosher(recipe_url):
                     replaced = True
                 removed_unkosh.append(unkosher[thing])
 
+                #log change:
+                changes.append("Replaced " + unkosher[thing] + " with " + meat_alt + ".")
+
              
                 #fix title
                 recipe_name = recipe_name.lower().replace(unkosher[thing], meat_alt)
@@ -168,10 +172,15 @@ def make_kosher(recipe_url):
                 #remove dairy
                     for d in dairy_dict:
                         if d.lower() in ingredient['name'].lower() and "non-dairy" not in ingredient['name'].lower():
+                            changes.append("Replaced " + ingredient['name'] + " with optional non-dairy " + ingredient['name'] + ".")
                             ingredient['name'] = "non-dairy " + ingredient['name'] + " (optional)"
                             
 
+                            
+
             #fix step
+        for change in changes:
+            print(change)
 
 
 
@@ -192,6 +201,8 @@ def make_kosher(recipe_url):
     print(recipe_data)
 
     return
+
+
 
 def make_gluten_free(recipe):
     return
