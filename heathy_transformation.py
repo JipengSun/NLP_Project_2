@@ -31,6 +31,8 @@ def find_ingredient(sentence,type_dict,reason_dict):
                 print(value)
 
 def txt2list(filename, newlist):
+    list_dir = './ingredient_type_list/'
+    filename = list_dir + filename
     with open(filename) as f:
         line = f.readline()
         while line:
