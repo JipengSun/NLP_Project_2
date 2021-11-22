@@ -1,20 +1,58 @@
 import nltk
+from nltk.tag import pos_tag
+from nltk.tokenize import word_tokenize
+from spacy import matcher
 import get_recipe_json
+from spacy.matcher import Matcher
+import spacy
+
 
 def make_healthy(recipe_data):
     #replace unhealthy foods with healthy alternatives
     #replace frying with alternative method
     [unhealthy_ingredient_data,healthy_ingredient_data,category_reason] = build_ingredient_type_structure()
+    tools = []
+    txt2list('tools_list.txt',tools)
+    #print(tools)
+    #find_ingredient_from_step(recipe_data['ingredients'],recipe_data['steps'])
 
+    steps_data = []
+    
     for step in recipe_data['steps']:
-        find_ingredient(step,unhealthy_ingredient_data,category_reason)
-        find_ingredient(step,healthy_ingredient_data,category_reason)
+        step_structure = {
+        'original_text':'',
+        'ingredients':[],
+        'tools':[],
+        'methods':[]
+        }
+        step_structure['original_text'] = step
+
+        ingredient_set = set()
+
+        step_tokens = nltk.word_tokenize(step)
+        for token in step_tokens:
+            for ingredient in recipe_data['ingredients']:
+                if token in ingredient['name']:
+                    ingredient_set.add(ingredient['name'])
+        step_structure['ingredients'] = list(ingredient_set)
+
+        #find_ingredient_from_text(step,unhealthy_ingredient_data,category_reason)
+        #find_ingredient_from_text(step,healthy_ingredient_data,category_reason)
+
+        for tool in tools:
+            if tool != '' and tool in step:
+                step_structure['tools'].append(tool)
+        #print(step_structure)
+        
+        steps_data.append(step_structure)
+    
         '''
         step_tokens = nltk.word_tokenize(step)
         for token in step_tokens:
             find_token_in_dict(token,unhealthy_ingredient_data)
             find_token_in_dict(token,healthy_ingredient_data)
         '''
+    print(steps_data)
         
 
 def find_token_in_dict(token,dict1):
@@ -23,7 +61,7 @@ def find_token_in_dict(token,dict1):
             print(token)
             print(key)
 
-def find_ingredient(sentence,type_dict,reason_dict):
+def find_ingredient_from_text(sentence,type_dict,reason_dict):
     for key, values in type_dict.items():
         for value in values:
             if value != '' and value in sentence.lower():
@@ -40,6 +78,7 @@ def txt2list(filename, newlist):
             newlist.append(line.strip().lower())
 
 def build_ingredient_type_structure():
+
     category_reason = {
         "trans_fat":"The original recipe contains too much trans-fat, which may add your chance to get inflammation.",
         "saturated_fat":"The original recipe contains saturated fat, which may cause artery blockage.",
@@ -61,7 +100,7 @@ def build_ingredient_type_structure():
 
     red_meat = ['beef','lamb','mutton','pork','veal','venison','goat']
     processed_meat = ['sausage','bacon','ham','deli meats','salami','pâtés','canned meat','corned beef','luncheon meats','prosciutto']
-    cheese = ['cheese','roquefort','camembert','cotija','chèvre','feta','mozzarella','emmental','cheddar','gouda','taleggio','parmigiano-reggiano','manchego','monterey jack']
+    cheese = ['cheese','roquefort cheese','camembert cheese','cotija cheese','chèvre cheese','feta cheese','mozzarella cheese','emmental cheese','cheddar cheese','gouda cheese','taleggio cheese','parmigiano-reggiano cheese','manchego cheese','monterey jack cheese']
     saturated_fat = ['coconut oil','whole milk'] + cheese + red_meat + processed_meat
     salt = ['salt']
 
@@ -104,7 +143,33 @@ def build_ingredient_type_structure():
 
     return [unhealthy_ingredient_data,healthy_ingredient_data,category_reason]
 
+'''
+def extract_full_name(text):
+    nlp = spacy.load('en_core_web_sm')
+    matcher = Matcher(nlp.vocab)
+    nlp_doc = nlp(text)
+    pattern = [{'POS': 'PROPN'},{'POS': 'NOUN'}]
+    matcher.add('FULL_NAME', None, pattern)
+    matches = matcher(nlp_doc)
+    for match_id, start, end in matches:
+        span = nlp_doc[start:end]
+        print(span.text)
+'''
 
+
+def find_ingredient_from_step(ingredients_list,step_list):
+    nn_ingredient = []
+    for ingredient in ingredients_list:
+        text = word_tokenize(ingredient['name'])
+        #extract_full_name(ingredient['name'])
+        pos_text = nltk.pos_tag(text)
+        print(pos_text)
+
+    for step in step_list:
+        print(step)
+        for ingredient in ingredients_list:
+            if ingredient['name'] in step.lower():
+                print(ingredient['name'])
 
 
 test_url = 'https://www.allrecipes.com/recipe/150273/spicy-pimento-cheese-sandwiches-with-avocado-and-bacon/'
@@ -112,3 +177,5 @@ test_url = 'https://www.allrecipes.com/recipe/150273/spicy-pimento-cheese-sandwi
 recipe_data = get_recipe_json.get_recipe_json(test_url)
 
 make_healthy(recipe_data)
+
+#print(recipe_data)
