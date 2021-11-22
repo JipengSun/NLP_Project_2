@@ -40,10 +40,11 @@ def make_healthy(recipe_data):
         #find_ingredient_from_text(step,healthy_ingredient_data,category_reason)
 
         for tool in tools:
-            if tool != '' and tool in step:
+            if tool != '' and tool.lower() in step.lower():
                 step_structure['tools'].append(tool)
-        #print(step_structure)
-        
+        print(step_structure)
+        print(' ')
+
         steps_data.append(step_structure)
     
         '''
@@ -52,7 +53,7 @@ def make_healthy(recipe_data):
             find_token_in_dict(token,unhealthy_ingredient_data)
             find_token_in_dict(token,healthy_ingredient_data)
         '''
-    print(steps_data)
+    #print(steps_data)
         
 
 def find_token_in_dict(token,dict1):
@@ -172,7 +173,9 @@ def find_ingredient_from_step(ingredients_list,step_list):
                 print(ingredient['name'])
 
 
-test_url = 'https://www.allrecipes.com/recipe/150273/spicy-pimento-cheese-sandwiches-with-avocado-and-bacon/'
+#test_url = 'https://www.allrecipes.com/recipe/150273/spicy-pimento-cheese-sandwiches-with-avocado-and-bacon/'
+#test_url = 'https://www.allrecipes.com/recipe/143809/best-steak-marinade-in-existence/'
+test_url = 'https://www.allrecipes.com/recipe/276206/stuffed-turkey-meatloaf/'
 
 recipe_data = get_recipe_json.get_recipe_json(test_url)
 
