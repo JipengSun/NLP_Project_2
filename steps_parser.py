@@ -45,7 +45,7 @@ def parse_step_data(recipe_data):
             #print(pos_tokens[i])
             #if pos_tokens[i][1] == 'VB':
             if nlp_tokens[i].lemma_.lower() in cooking_verbs:
-                cooking_tools_set.add(token.lower())
+                cooking_tools_set.add(nlp_tokens[i].lemma_.lower())
             if token.isnumeric() and i< len(step_tokens)-1 and step_tokens[i+1] in time_words:
                 step_structure['cooking_time'].append(step_tokens[i] +' '+ step_tokens[i+1])
 
