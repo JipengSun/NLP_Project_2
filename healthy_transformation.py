@@ -129,8 +129,9 @@ def construct_new_steps(steps_data,new_ingredients):
 
 
 #test_url = 'https://www.allrecipes.com/recipe/150273/spicy-pimento-cheese-sandwiches-with-avocado-and-bacon/'
-test_url = 'https://www.allrecipes.com/recipe/143809/best-steak-marinade-in-existence/'
+#test_url = 'https://www.allrecipes.com/recipe/143809/best-steak-marinade-in-existence/'
 #test_url = 'https://www.allrecipes.com/recipe/276206/stuffed-turkey-meatloaf/'
+test_url = 'https://www.allrecipes.com/recipe/229423/moms-pumpkin-rolls/'
 
 recipe_data = get_recipe_json.get_recipe_json(test_url)
 steps_data = steps_parser.parse_step_data(recipe_data)
