@@ -13,6 +13,10 @@ def make_healthy(recipe_data):
     [unhealthy_ingredient_data,healthy_ingredient_data,category_reason] = build_ingredient_type_structure()
     tools = []
     txt2list('tools_list.txt',tools)
+    nlp = spacy.load('en_core_web_sm')
+
+    cooking_verbs = []
+    txt2list('cooking_verbs_list.txt',cooking_verbs)
     #print(tools)
     #find_ingredient_from_step(recipe_data['ingredients'],recipe_data['steps'])
 
@@ -31,14 +35,24 @@ def make_healthy(recipe_data):
         ingredient_set = set()
         ingredient_set.clear()
 
+        cooking_tools_set = set()
+        cooking_tools_set.clear()
+
         step_tokens = nltk.word_tokenize(step)
-        for token in step_tokens:
+        nlp_tokens = nlp(step)
+        #pos_tokens = nltk.pos_tag(step_tokens)
+        for i, token in enumerate(step_tokens):
+            #print(pos_tokens[i])
+            #if pos_tokens[i][1] == 'VB':
+            if nlp_tokens[i].lemma_.lower() in cooking_verbs:
+                cooking_tools_set.add(token.lower())
             for ingredient in recipe_data['ingredients']:
                 if token.isalpha() and token not in stop_words and token in ingredient['name']:
                     #print(token)
                     #print(ingredient['name'])
                     ingredient_set.add(ingredient['name'])
         step_structure['ingredients'] = list(ingredient_set)
+        step_structure['methods'] = list(cooking_tools_set)
 
         #find_ingredient_from_text(step,unhealthy_ingredient_data,category_reason)
         #find_ingredient_from_text(step,healthy_ingredient_data,category_reason)
@@ -74,7 +88,7 @@ def find_ingredient_from_text(sentence,type_dict,reason_dict):
                 print(value)
 
 def txt2list(filename, newlist):
-    list_dir = './ingredient_type_list/'
+    list_dir = './knowledge_list/'
     filename = list_dir + filename
     with open(filename) as f:
         line = f.readline()
@@ -185,4 +199,4 @@ recipe_data = get_recipe_json.get_recipe_json(test_url)
 
 make_healthy(recipe_data)
 
-#print(recipe_data)
+print(recipe_data)
