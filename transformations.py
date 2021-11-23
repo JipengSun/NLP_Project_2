@@ -121,7 +121,7 @@ def make_indian(recipe):
 
     return
 
-def make_kosher(recipe_url):
+def make_kosher(recipe_url, dairy_free = 0):
     clearConsole()
     changes = []
     unkosher = ['pork', "prosciutto", "shrimp", 'lobster', 'crab']
@@ -129,9 +129,12 @@ def make_kosher(recipe_url):
     dairy_dict = ['cheese', 'milk', 'cream']
     meat_alternatives = ['Tofu', 'Seitan']
     #get type of alternative
-    print("Do you want this dish to be 0: meat, 1: dairy, or 2: parve?\n")
-    dish = input_check('num', 2)
-    dish = int(dish)
+    if dairy_free:
+        dish = 1
+    else:
+        print("Do you want this dish to be 0: meat, 1: dairy, or 2: parve?\n")
+        dish = input_check('num', 2)
+        dish = int(dish)
 
     recipe_data = get_recipe_json.get_recipe_json(recipe_url)
     steps_data = steps_parser.parse_step_data(recipe_data)
@@ -232,8 +235,6 @@ def make_kosher(recipe_url):
 def make_gluten_free(recipe):
     return
 
-def make_dairy_free(recipe):
-    return
 
 
 ### optional
