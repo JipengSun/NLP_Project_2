@@ -70,6 +70,27 @@ def parse_step_data(recipe_data):
         steps_data.append(step_structure)
     return steps_data
     
+def get_ingredient_str(ing_dict):
+    ing_str = ''
+    if ing_dict['unit'] == '':
+        ing_str = ing_dict['name']
+    else:
+        #print('\t'+str(ing_dict['quantity']) + ' ' + ing_dict['unit']+ ' ' + ing_dict['name'])
+        ing_str = str(ing_dict['quantity']) + ' ' + ing_dict['unit']+ ' ' + ing_dict['name']
+    return ing_str
+
+def print_steps_data(steps_data):
+    index = 1
+    for step_data in steps_data:
+        print("Step "+str(index) + ":")
+        print(step_data['original_text'])
+        print(" ")
+        print("The ingredients used in this step: ")
+        for ing_dict in step_data['ingredients']:
+            print('\t'+get_ingredient_str(ing_dict))
+        index += 1
+
+
 
 def find_ingredient_from_text(sentence,type_dict,reason_dict):
     for key, values in type_dict.items():
