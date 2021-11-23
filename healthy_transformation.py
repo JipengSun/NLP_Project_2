@@ -90,7 +90,8 @@ def print_overall_analysis_text(ingredients_type,category_reason,health_replacem
                         ing_dict = {'quantity':value['quantity'],'unit':value['unit'],'name':v[randrange(len(v))]}
                         new_ingredients.append([value,ing_dict])
                         print('\t'+steps_parser.get_ingredient_str(value)+" ==> "+steps_parser.get_ingredient_str(ing_dict))
-    
+    if len(new_ingredients) == 0:
+        print('\t'+'Oh! The original recipe is already a healthy one, nice recipe!')
     print(" ")
     return new_ingredients
 
@@ -127,8 +128,8 @@ def construct_new_steps(steps_data,new_ingredients):
 
 
 
-test_url = 'https://www.allrecipes.com/recipe/150273/spicy-pimento-cheese-sandwiches-with-avocado-and-bacon/'
-#test_url = 'https://www.allrecipes.com/recipe/143809/best-steak-marinade-in-existence/'
+#test_url = 'https://www.allrecipes.com/recipe/150273/spicy-pimento-cheese-sandwiches-with-avocado-and-bacon/'
+test_url = 'https://www.allrecipes.com/recipe/143809/best-steak-marinade-in-existence/'
 #test_url = 'https://www.allrecipes.com/recipe/276206/stuffed-turkey-meatloaf/'
 
 recipe_data = get_recipe_json.get_recipe_json(test_url)

@@ -126,7 +126,8 @@ def build_ingredient_type_structure():
         "white_meat":"Original recipe contains white meat, which is wildly considered healthier than red meat.",
         "fish_meat":"Fish meat is good for health.",
         "soy_products":"Original recipe uses soy products, which are a good replacement for unhealthy meat.",
-        "legume":"Original recipe contains legume, which contain antioxidants that help prevent cell damage and fight disease and aging."
+        "legume":"Original recipe contains legume, which contain antioxidants that help prevent cell damage and fight disease and aging.",
+        "healthy_oil":"It's good to use healthy oil which could help the body to absorb vitamins A, D, E, and K."
     }
     massive_sugar = ['ice cream','candy','pastries','cookies','soda','fruit juices','canned fruit','processed meat','breakfast cereals','ketchup','beet sugar',\
         'blackstrap molasses','brown sugar','buttered syrup','cane juice crystals','cane sugar','caramel','carob syrup','castor sugar',\
@@ -231,7 +232,7 @@ def find_ingredient_from_step(ingredients_list,step_list):
                 print(ingredient['name'])
 
 def replace_words_in_str(replacement_list,sentence):
-    print(replacement_list)
+    #print(replacement_list)
     sentence_tokens = nltk.word_tokenize(sentence.lower())
     new_sentence = sentence
     for replacement in replacement_list:
