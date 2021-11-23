@@ -12,6 +12,7 @@ def make_healthy(recipe_data,steps_data):
     ingredients_type = {}
     get_ingredients_types(ingredients_type,recipe_data,healthy_ingredient_data,unhealthy_ingredient_data)
     print(ingredients_type.keys())
+    print(get_overall_analysis(ingredients_type,category_reason))
     
     #print(steps_data)
 
@@ -35,6 +36,17 @@ def get_ingredients_types(ingredients_type,recipe_data,healthy_ingredient_data,u
     
     return ingredients_type
 
+def get_overall_analysis(ingredients_type,category_reason):
+    analysis_list = []
+    for type in category_reason.keys():
+        if type == 'vegetables' and type not in ingredients_type.keys():
+            analysis_list.append[category_reason['vegetables']]
+        elif type == 'fruits' and type not in ingredients_type.keys():
+            analysis_list.append[category_reason['fruits']]
+        else:
+            if (type != 'vegetables' and type!= 'fruits' )and type in ingredients_type.keys():
+                analysis_list.append(category_reason[type])
+    return analysis_list
 
 
 test_url = 'https://www.allrecipes.com/recipe/150273/spicy-pimento-cheese-sandwiches-with-avocado-and-bacon/'
