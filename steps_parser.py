@@ -114,12 +114,12 @@ def build_ingredient_type_structure():
                     'raw sugar','refiner’s syrup','sorghum syrup','sucanat','treacle sugar','turbinado sugar','yellow sugar']
 
     unhealthy_oil = ['soybean oil','corn oil','cottonseed oil','sunflower oil','peanut oil','sesame oil','rice bran oil','flaxseed oil']
-    trans_fat = ['fried food','chips','creamer','margarine']+unhealthy_oil
+    trans_fat = ['fried food','chips','creamer','margarine']#+unhealthy_oil
 
     red_meat = ['beef','lamb','mutton','pork','veal','venison','goat']
     processed_meat = ['sausage','bacon','ham','deli meats','salami','pâtés','canned meat','corned beef','luncheon meats','prosciutto']
     cheese = ['cheese','roquefort cheese','camembert cheese','cotija cheese','chèvre cheese','feta cheese','mozzarella cheese','emmental cheese','cheddar cheese','gouda cheese','taleggio cheese','parmigiano-reggiano cheese','manchego cheese','monterey jack cheese']
-    saturated_fat = ['coconut oil','whole milk'] + cheese + red_meat + processed_meat
+    saturated_fat = ['coconut oil','whole milk'] #+ cheese + red_meat + processed_meat
     salt = ['salt']
 
     unhealthy_ingredient_data = {
@@ -154,6 +154,8 @@ def build_ingredient_type_structure():
 
     protein = ['egg']+legume_list+soy_products+red_meat+white_meat+fish_meat
 
+    cooked_fresh_meat = ['boiled chicken breast','Salmon Sashimi']
+
     healthy_ingredient_data = {
         'vegetables':vegetables,
         'fruits':fruits,
@@ -166,7 +168,18 @@ def build_ingredient_type_structure():
         "legume":legume_list
     }
 
-    return [unhealthy_ingredient_data,healthy_ingredient_data,category_reason]
+    health_replacement_mapping = {
+        "massive_sugar":{'amount_change':0.8},
+        "processed_meat":{'cooked_fresh_meat':cooked_fresh_meat},
+        "red_meat":{'white_meat':white_meat},
+        "cheese":{'amount_change':0.8},
+        "unhealthy_oil":{"healthy_oil":healthy_oil},
+        "trans_fat":{"fish_meat":fish_meat},
+        "saturated_fat":{"legume":legume_list},
+        "salt" : {'amount_change':0.8}
+    }
+
+    return [unhealthy_ingredient_data,healthy_ingredient_data,category_reason,health_replacement_mapping]
 
 '''
 def extract_full_name(text):

@@ -1,11 +1,12 @@
 import nltk
 import steps_parser
 import get_recipe_json
+from random import randrange
 
 def make_healthy(recipe_data,steps_data):
     #replace unhealthy foods with healthy alternatives
     #replace frying with alternative method
-    [unhealthy_ingredient_data,healthy_ingredient_data,category_reason] = steps_parser.build_ingredient_type_structure()
+    [unhealthy_ingredient_data,healthy_ingredient_data,category_reason,health_replacement_mapping] = steps_parser.build_ingredient_type_structure()
     #print(recipe_data['ingredients'])
     
     # Overall analysis of ingredients
@@ -14,11 +15,7 @@ def make_healthy(recipe_data,steps_data):
     get_ingredients_types(ingredients_type,recipe_data,healthy_ingredient_data,unhealthy_ingredient_data)
     #print(ingredients_type)
     get_overall_analysis(ingredients_type,category_reason)
-    print_analysis_text(ingredients_type,category_reason)
-    
-
-    
-    #print(steps_data)
+    print_overall_analysis_text(ingredients_type,category_reason,health_replacement_mapping)
 
 
 def get_ingredients_types(ingredients_type,recipe_data,healthy_ingredient_data,unhealthy_ingredient_data):
@@ -47,13 +44,14 @@ def get_overall_analysis(ingredients_type,category_reason):
             analysis_list.append({type:category_reason[type]})
     return analysis_list
 
-def print_analysis_text(ingredients_type,category_reason):
+def print_overall_analysis_text(ingredients_type,category_reason,health_replacement):
     print("Your original recipe contains following types of ingredients:")
     print(" ")
     for key, values in ingredients_type.items():
         print(key+':')
         for value in values:
-            print_ingredient(value)
+            print('\t'+ get_ingredient_str(value))
+            #print_ingredient(value)
         print(' ')
     print("Based on your recipe, we would like to give you following health suggestions:")
     print(" ")
@@ -61,12 +59,30 @@ def print_analysis_text(ingredients_type,category_reason):
     for key, values in ingredients_type.items():
         print(str(index)+'. '+category_reason[key])
         index += 1
+    print(" ")
+    print('For your health, we make following changes to your original recipe:')
+    print(" ")
+    for key, values in ingredients_type.items():
+        if key in health_replacement:
+            for value in values:
+                if 'amount_change' in health_replacement[key].keys():
+                    ing_dict = {'quantity':value['quantity']*health_replacement[key]['amount_change'],
+                    'unit':value['unit'],
+                    'name':value['name']}
+                    print('\t'+get_ingredient_str(value)+" ==> "+get_ingredient_str(ing_dict))
+                else:
+                    for k,v in health_replacement[key].items():
+                        ing_dict = {'quantity':value['quantity'],'unit':value['unit'],'name':v[randrange(len(v))]}
+                        print('\t'+get_ingredient_str(value)+" ==> "+get_ingredient_str(ing_dict))
 
-def print_ingredient(ing_dict):
+def get_ingredient_str(ing_dict):
+    ing_str = ''
     if ing_dict['unit'] == '':
-        print('\t'+ing_dict['name'])
+        ing_str = ing_dict['name']
     else:
-        print('\t'+str(ing_dict['quantity']) + ' ' + ing_dict['unit']+ ' ' + ing_dict['name'])
+        #print('\t'+str(ing_dict['quantity']) + ' ' + ing_dict['unit']+ ' ' + ing_dict['name'])
+        ing_str = str(ing_dict['quantity']) + ' ' + ing_dict['unit']+ ' ' + ing_dict['name']
+    return ing_str
 
 test_url = 'https://www.allrecipes.com/recipe/150273/spicy-pimento-cheese-sandwiches-with-avocado-and-bacon/'
 #test_url = 'https://www.allrecipes.com/recipe/143809/best-steak-marinade-in-existence/'
