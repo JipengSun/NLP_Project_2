@@ -155,7 +155,7 @@ def make_kosher(recipe_url, dairy_free = 0):
                         print("What kind of meat do you want?\n")
                         for meat in range(len(meats_dict)):
                             print(str(meat) + ": " + meats_dict[meat])
-                        meat_alt = input_check('num', 2)
+                        meat_alt = input_check('num', 4)
                         meat_alt = meats_dict[int(meat_alt)]
                     else:
                         print("What kind of meat substitute do you want?\n")
@@ -235,8 +235,7 @@ def make_kosher(recipe_url, dairy_free = 0):
 def make_gluten_free(recipe):
     return
 
-def make_dairy_free(recipe):
-    return make_kosher(recipe, 1)
+
 
 ### optional
 def scale_recipe(recipe, scale):
@@ -245,7 +244,7 @@ def scale_recipe(recipe, scale):
     return
 
 
-make_dairy_free('https://www.allrecipes.com/recipe/172060/hummus-and-prosciutto-wrap/')
+make_kosher('https://www.allrecipes.com/recipe/172060/hummus-and-prosciutto-wrap/')
 # make_vegetarian('https://www.allrecipes.com/recipe/172060/hummus-and-prosciutto-wrap/')
 
 test_url = 'https://www.allrecipes.com/recipe/150273/spicy-pimento-cheese-sandwiches-with-avocado-and-bacon/'
