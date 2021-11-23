@@ -6,7 +6,13 @@ import get_recipe_json
 import steps_parser
 import healthy_transformation
 import string
+import os
 
+def clearConsole():
+    command = 'clear'
+    if os.name in ('nt', 'dos'): 
+        command = 'cls'
+    os.system(command)
 
 def input_check(type, bound):
     #takes 'num' (for now, maybe add str later), and bound (the max size the number can be)
@@ -24,6 +30,7 @@ def input_check(type, bound):
 
 
 def make_vegetarian(recipe_url):
+    clearConsole()
     meats_dict = ['chicken', 'beef', 'pork', 'lamb', 'fish', 'salmon', 'Prosciutto']
     meat_alternatives = ['Tofu', 'Seitan']
     #get type of alternative
@@ -46,6 +53,7 @@ def make_vegetarian(recipe_url):
     #fix name
     recipe_name = recipe_data_['name']
     removed_meats = []
+    removed_meat = []
     for meat in meats_dict:
         recipe_name = recipe_name.replace(meat, meat_alt)
         removed_meats.append(meat)
@@ -59,6 +67,8 @@ def make_vegetarian(recipe_url):
                 #what to do with units?
                 ingredient['unit'] = ''
                 ingredient['quantity'] = ''
+                removed_meat.append(meat)
+
 
     
     #fix steps
@@ -69,7 +79,15 @@ def make_vegetarian(recipe_url):
             if meat.lower() in steps_data[step]['original_text'].lower():
                 steps_data[step]['original_text'] = steps_data[step]['original_text'].lower().replace(meat.lower(), meat_alt)
 
-
+    ##prints
+    print("Changes: \n")
+    for rm in removed_meat:
+        print("Removed " + rm + ".")
+    print("Added " + meat_alt + ".\n\n")
+    print("Ingredients: \n")
+    for ingredient in recipe_data_['ingredients']:
+        print(ingredient['name'])
+    print("\n\n")
     steps_parser.print_steps_data(steps_data)
 
     
