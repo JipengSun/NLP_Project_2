@@ -65,16 +65,11 @@ def parse_step_data(recipe_data):
         for tool in tools:
             if tool != '' and tool.lower() in step.lower():
                 step_structure['tools'].append(tool)
-        print(step_structure)
-        print(' ')
+        #print(step_structure)
+        #print(' ')
         steps_data.append(step_structure)
     return steps_data
     
-def find_token_in_dict(token,dict1):
-    for key, values in dict1.items():
-        if token in values:
-            print(token)
-            print(key)
 
 def find_ingredient_from_text(sentence,type_dict,reason_dict):
     for key, values in type_dict.items():
