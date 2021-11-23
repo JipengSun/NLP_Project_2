@@ -22,13 +22,16 @@ def make_healthy(recipe_data):
 
     steps_data = []
     stop_words = ['a','to','or','and','in','read']
+
+    time_words = ['minutes','minute','hour','hours','seconds','second']
     
     for step in recipe_data['steps']:
         step_structure = {
         'original_text':'',
         'ingredients':[],
         'tools':[],
-        'methods':[]
+        'methods':[],
+        'cooking_time':[]
         }
         step_structure['original_text'] = step
 
@@ -46,6 +49,9 @@ def make_healthy(recipe_data):
             #if pos_tokens[i][1] == 'VB':
             if nlp_tokens[i].lemma_.lower() in cooking_verbs:
                 cooking_tools_set.add(token.lower())
+            if token.isnumeric() and i< len(step_tokens)-1 and step_tokens[i+1] in time_words:
+                step_structure['cooking_time'].append(step_tokens[i] +' '+ step_tokens[i+1])
+
             for ingredient in recipe_data['ingredients']:
                 if token.isalpha() and token not in stop_words and token in ingredient['name']:
                     #print(token)
