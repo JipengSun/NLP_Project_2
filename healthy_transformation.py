@@ -15,7 +15,18 @@ def make_healthy(recipe_data,steps_data):
     get_ingredients_types(ingredients_type,recipe_data,healthy_ingredient_data,unhealthy_ingredient_data)
     #print(ingredients_type)
     get_overall_analysis(ingredients_type,category_reason)
-    print_overall_analysis_text(ingredients_type,category_reason,health_replacement_mapping)
+
+    new_ingredients = []
+    new_ingredients = print_overall_analysis_text(ingredients_type,category_reason,health_replacement_mapping,recipe_data)
+    #print(new_ingredients)
+    new_steps_data = construct_new_steps(steps_data,new_ingredients)
+
+    print("The new transformed healthy recipe is as following:")
+    print(" ")
+    print(steps_parser.print_steps_data(new_steps_data))
+
+
+
 
 
 def get_ingredients_types(ingredients_type,recipe_data,healthy_ingredient_data,unhealthy_ingredient_data):
@@ -44,7 +55,7 @@ def get_overall_analysis(ingredients_type,category_reason):
             analysis_list.append({type:category_reason[type]})
     return analysis_list
 
-def print_overall_analysis_text(ingredients_type,category_reason,health_replacement):
+def print_overall_analysis_text(ingredients_type,category_reason,health_replacement,recipe_data):
     print("Your original recipe contains following types of ingredients:")
     print(" ")
     for key, values in ingredients_type.items():
@@ -62,6 +73,9 @@ def print_overall_analysis_text(ingredients_type,category_reason,health_replacem
     print(" ")
     print('For your health, we make following changes to your original recipe:')
     print(" ")
+
+    new_ingredients = []
+
     for key, values in ingredients_type.items():
         if key in health_replacement:
             for value in values:
@@ -69,21 +83,53 @@ def print_overall_analysis_text(ingredients_type,category_reason,health_replacem
                     ing_dict = {'quantity':value['quantity']*health_replacement[key]['amount_change'],
                     'unit':value['unit'],
                     'name':value['name']}
+                    new_ingredients.append([value,ing_dict])
                     print('\t'+steps_parser.get_ingredient_str(value)+" ==> "+steps_parser.get_ingredient_str(ing_dict))
                 else:
                     for k,v in health_replacement[key].items():
                         ing_dict = {'quantity':value['quantity'],'unit':value['unit'],'name':v[randrange(len(v))]}
+                        new_ingredients.append([value,ing_dict])
                         print('\t'+steps_parser.get_ingredient_str(value)+" ==> "+steps_parser.get_ingredient_str(ing_dict))
-    
+    if len(new_ingredients) == 0:
+        print('\t'+'Oh! The original recipe is already a healthy one, nice recipe!')
     print(" ")
-    print("The new transformed recipe is as following:")
-    print(" ")
-    print(steps_parser.print_steps_data(steps_data))
+    return new_ingredients
+
+def construct_new_steps(steps_data,new_ingredients):
+    new_steps_data = []
+    #print(steps_data)
+    for step_data in steps_data:
+        step_structure = {
+        'original_text':'',
+        'ingredients':[],
+        'tools':[],
+        'methods':[],
+        'cooking_time':[]
+        }
+        new_step_data = []
+        new_step_text = step_data['original_text']
+        for ingredient_data in step_data['ingredients']:
+            for replacement in new_ingredients:
+                if replacement[0] == ingredient_data:
+                    ingredient_data = replacement[1]
+            new_step_data.append(ingredient_data)
+            
+        new_step_text = steps_parser.replace_words_in_str(new_ingredients,new_step_text)
+        
+        step_structure['original_text'] = new_step_text
+        step_structure['ingredients'] = new_step_data
+        step_structure['tools'] = step_data['tools']
+        step_structure['methods'] = step_data['methods']
+        step_structure['cooking_time'] = step_data['cooking_time']
+
+        new_steps_data.append(step_structure)
+    #print(new_steps_data)
+    return new_steps_data
 
 
 
-test_url = 'https://www.allrecipes.com/recipe/150273/spicy-pimento-cheese-sandwiches-with-avocado-and-bacon/'
-#test_url = 'https://www.allrecipes.com/recipe/143809/best-steak-marinade-in-existence/'
+#test_url = 'https://www.allrecipes.com/recipe/150273/spicy-pimento-cheese-sandwiches-with-avocado-and-bacon/'
+test_url = 'https://www.allrecipes.com/recipe/143809/best-steak-marinade-in-existence/'
 #test_url = 'https://www.allrecipes.com/recipe/276206/stuffed-turkey-meatloaf/'
 
 recipe_data = get_recipe_json.get_recipe_json(test_url)

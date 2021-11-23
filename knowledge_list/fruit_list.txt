@@ -144,7 +144,6 @@ Corn kernel
 Cucumber
 Eggplant
 Jalapeño
-Olive
 Pea
 Pumpkin
 Squash
