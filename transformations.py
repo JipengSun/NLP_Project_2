@@ -3,7 +3,8 @@ import json
 import nltk
 from nltk.probability import DictionaryConditionalProbDist
 import get_recipe_json
-import heathy_transformation
+import steps_parser
+import healthy_transformation
 import string
 
 
@@ -76,7 +77,8 @@ def make_healthy(recipe_data):
     #replace unhealthy foods with healthy alternatives
     #replace frying with alternative method
 
-    heathy_transformation.make_healthy(recipe_data)
+    steps_data = steps_parser.parse_step_data(recipe_data)
+    healthy_transformation.make_healthy(recipe_data,steps_data)
         
 
 
@@ -194,14 +196,17 @@ def make_dairy_free(recipe):
 ### optional
 def scale_recipe(recipe, scale):
     # scale (float to multiply amounts by)
+    steps_parser.parse_step_data(recipe)
     return
 
 
 make_kosher('https://www.allrecipes.com/recipe/172060/hummus-and-prosciutto-wrap/')
 # make_vegetarian('https://www.allrecipes.com/recipe/172060/hummus-and-prosciutto-wrap/')
 
-# test_url = 'https://www.allrecipes.com/recipe/150273/spicy-pimento-cheese-sandwiches-with-avocado-and-bacon/'
+test_url = 'https://www.allrecipes.com/recipe/150273/spicy-pimento-cheese-sandwiches-with-avocado-and-bacon/'
 
-# recipe_data = get_recipe_json.get_recipe_json(test_url)
+recipe_data = get_recipe_json.get_recipe_json(test_url)
 
 # make_healthy(recipe_data)
+
+scale_recipe(recipe_data)
