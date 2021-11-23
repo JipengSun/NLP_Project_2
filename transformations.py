@@ -236,7 +236,7 @@ def make_gluten_free(recipe):
     return
 
 def make_dairy_free(recipe):
-    return make_kosher(recipe)
+    return make_kosher(recipe, 1)
 
 ### optional
 def scale_recipe(recipe, scale):
@@ -245,7 +245,7 @@ def scale_recipe(recipe, scale):
     return
 
 
-make_kosher('https://www.allrecipes.com/recipe/172060/hummus-and-prosciutto-wrap/')
+make_dairy_free('https://www.allrecipes.com/recipe/172060/hummus-and-prosciutto-wrap/')
 # make_vegetarian('https://www.allrecipes.com/recipe/172060/hummus-and-prosciutto-wrap/')
 
 test_url = 'https://www.allrecipes.com/recipe/150273/spicy-pimento-cheese-sandwiches-with-avocado-and-bacon/'
