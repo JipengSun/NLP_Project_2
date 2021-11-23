@@ -18,7 +18,7 @@ def parse_step_data(recipe_data):
     #find_ingredient_from_step(recipe_data['ingredients'],recipe_data['steps'])
 
     steps_data = []
-    stop_words = ['a','to','or','and','in','read']
+    stop_words = ['a','to','or','and','in','read','at','room','temperature']
 
     time_words = ['minutes','minute','hour','hours','seconds','second']
     
