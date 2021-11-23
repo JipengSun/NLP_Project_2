@@ -87,8 +87,28 @@ def print_steps_data(steps_data):
         print(" ")
         if len(step_data['ingredients']) != 0:
             print("The ingredients used in this step: ")
-        for ing_dict in step_data['ingredients']:
-            print('\t'+get_ingredient_str(ing_dict))
+            print(" ")
+            for ing_dict in step_data['ingredients']:
+                print('\t'+get_ingredient_str(ing_dict))
+            print(" ")
+        if len(step_data['tools'])!=0:
+            print('The tools used in this step:')
+            print(" ")
+            for tool in step_data['tools']:
+                print(tool)
+            print(" ")
+        if len(step_data['methods'])!=0:
+            print('The methods used in this step:')
+            print(" ")
+            for method in step_data['methods']:
+                print(method)
+            print(" ")
+        if len(step_data['cooking_time'])!= 0:
+            print('The cooking time specified in this step:')
+            print(" ")
+            for ct in step_data['cooking_time']:
+                print(ct)
+            print(" ")
         index += 1
 
 
