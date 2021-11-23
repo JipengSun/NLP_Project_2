@@ -17,6 +17,7 @@ def make_healthy(recipe_data):
     #find_ingredient_from_step(recipe_data['ingredients'],recipe_data['steps'])
 
     steps_data = []
+    stop_words = ['a','to','or','and','in','read']
     
     for step in recipe_data['steps']:
         step_structure = {
@@ -28,11 +29,14 @@ def make_healthy(recipe_data):
         step_structure['original_text'] = step
 
         ingredient_set = set()
+        ingredient_set.clear()
 
         step_tokens = nltk.word_tokenize(step)
         for token in step_tokens:
             for ingredient in recipe_data['ingredients']:
-                if token in ingredient['name']:
+                if token.isalpha() and token not in stop_words and token in ingredient['name']:
+                    #print(token)
+                    #print(ingredient['name'])
                     ingredient_set.add(ingredient['name'])
         step_structure['ingredients'] = list(ingredient_set)
 
