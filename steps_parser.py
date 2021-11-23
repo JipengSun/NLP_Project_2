@@ -6,11 +6,8 @@ import get_recipe_json
 from spacy.matcher import Matcher
 import spacy
 
-
-def make_healthy(recipe_data):
-    #replace unhealthy foods with healthy alternatives
-    #replace frying with alternative method
-    [unhealthy_ingredient_data,healthy_ingredient_data,category_reason] = build_ingredient_type_structure()
+        
+def parse_step_data(recipe_data):
     tools = []
     txt2list('tools_list.txt',tools)
     nlp = spacy.load('en_core_web_sm')
@@ -68,18 +65,9 @@ def make_healthy(recipe_data):
                 step_structure['tools'].append(tool)
         print(step_structure)
         print(' ')
-
         steps_data.append(step_structure)
+    return steps_data
     
-        '''
-        step_tokens = nltk.word_tokenize(step)
-        for token in step_tokens:
-            find_token_in_dict(token,unhealthy_ingredient_data)
-            find_token_in_dict(token,healthy_ingredient_data)
-        '''
-    #print(steps_data)
-        
-
 def find_token_in_dict(token,dict1):
     for key, values in dict1.items():
         if token in values:
@@ -195,14 +183,3 @@ def find_ingredient_from_step(ingredients_list,step_list):
         for ingredient in ingredients_list:
             if ingredient['name'] in step.lower():
                 print(ingredient['name'])
-
-
-#test_url = 'https://www.allrecipes.com/recipe/150273/spicy-pimento-cheese-sandwiches-with-avocado-and-bacon/'
-#test_url = 'https://www.allrecipes.com/recipe/143809/best-steak-marinade-in-existence/'
-test_url = 'https://www.allrecipes.com/recipe/276206/stuffed-turkey-meatloaf/'
-
-recipe_data = get_recipe_json.get_recipe_json(test_url)
-
-make_healthy(recipe_data)
-
-print(recipe_data)
