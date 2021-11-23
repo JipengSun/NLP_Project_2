@@ -49,12 +49,14 @@ def parse_step_data(recipe_data):
             if token.isnumeric() and i< len(step_tokens)-1 and step_tokens[i+1] in time_words:
                 step_structure['cooking_time'].append(step_tokens[i] +' '+ step_tokens[i+1])
 
-            for ingredient in recipe_data['ingredients']:
+            for j, ingredient in enumerate(recipe_data['ingredients']):
                 if token.isalpha() and token not in stop_words and token in ingredient['name']:
                     #print(token)
                     #print(ingredient['name'])
-                    ingredient_set.add(ingredient['name'])
-        step_structure['ingredients'] = list(ingredient_set)
+                    ingredient_set.add(j)
+        #step_structure['ingredients'] = list(ingredient_set)
+        for i in list(ingredient_set):
+            step_structure['ingredients'].append(recipe_data['ingredients'][i])
         step_structure['methods'] = list(cooking_tools_set)
 
         #find_ingredient_from_text(step,unhealthy_ingredient_data,category_reason)
@@ -100,7 +102,15 @@ def build_ingredient_type_structure():
         "vegetables":"The original recipe doesn't contain vegetables which provides you essential Vitamins and fiber, consider adding some vegetables in your recipe",
         "fruits":"There is no fruit in your recipe but that is common, don't forget to eat some fruits after the meal!",
         "grains":"Grains are naturally high in fiber, helping you feel full and satisfied — which makes it easier to maintain a healthy body weight.",
-        "protein":"The original recipe doesn't contain enough protein which is helpful for muscle gain and health."
+        "protein":"The original recipe doesn't contain enough protein which is helpful for muscle gain and health.",
+        "unhealthy_oil": "The original recipe uses unhealthy oil which contains trans-fat.",
+        "red_meat":"Red meat contains saturated fat, which may cause artery blockage.",
+        "processed_meat":"Eating processed meat increases your risk of bowel and stomach cancer.",
+        "cheese":"Cheese also contributes saturated fat, control the daily intake!",
+        "white_meat":"Original recipe contains white meat, which is wildly considered healthier than red meat.",
+        "fish_meat":"Fish meat is good for health.",
+        "soy_products":"Original recipe uses soy products, which are a good replacement for unhealthy meat.",
+        "legume":"Original recipe contains legume, which contain antioxidants that help prevent cell damage and fight disease and aging."
     }
     massive_sugar = ['ice cream','candy','pastries','cookies','soda','fruit juices','canned fruit','processed meat','breakfast cereals','ketchup','beet sugar',\
         'blackstrap molasses','brown sugar','buttered syrup','cane juice crystals','cane sugar','caramel','carob syrup','castor sugar',\
@@ -119,6 +129,10 @@ def build_ingredient_type_structure():
 
     unhealthy_ingredient_data = {
         "massive_sugar":massive_sugar,
+        "processed_meat":processed_meat,
+        "red_meat":red_meat,
+        "cheese":cheese,
+        "unhealthy_oil":unhealthy_oil,
         "trans_fat":trans_fat,
         "saturated_fat":saturated_fat,
         "salt" : salt
@@ -133,8 +147,9 @@ def build_ingredient_type_structure():
     
     grains = ['quinoa','corn','millet','brown rice']
     healthy_oil = ['olive oil','canola oil','aocado oil','walnut oil']
-    white_meat = ['chicken','turkey','duck','goose','game birds','rabbit','pheasant']
     fish_meat = ['salmon','cod','herring','mahi-mahi','mackerel','perch','rainbow trout','sardines','striped bass','tuna','alaskan pollock','char']
+    white_meat = ['chicken','turkey','duck','goose','game birds','rabbit','pheasant'] + fish_meat
+    
 
     soy_products = []
     txt2list('soy_product_list.txt',soy_products)
@@ -151,7 +166,9 @@ def build_ingredient_type_structure():
         'protein':protein,
         'healthy_oil':healthy_oil,
         'white_meat':white_meat,
-        'fish_meat':fish_meat
+        'fish_meat':fish_meat,
+        "soy_products":soy_products,
+        "legume":legume_list
     }
 
     return [unhealthy_ingredient_data,healthy_ingredient_data,category_reason]
