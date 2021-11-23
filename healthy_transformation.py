@@ -50,7 +50,7 @@ def print_overall_analysis_text(ingredients_type,category_reason,health_replacem
     for key, values in ingredients_type.items():
         print(key+':')
         for value in values:
-            print('\t'+ get_ingredient_str(value))
+            print('\t'+ steps_parser.get_ingredient_str(value))
             #print_ingredient(value)
         print(' ')
     print("Based on your recipe, we would like to give you following health suggestions:")
@@ -69,20 +69,18 @@ def print_overall_analysis_text(ingredients_type,category_reason,health_replacem
                     ing_dict = {'quantity':value['quantity']*health_replacement[key]['amount_change'],
                     'unit':value['unit'],
                     'name':value['name']}
-                    print('\t'+get_ingredient_str(value)+" ==> "+get_ingredient_str(ing_dict))
+                    print('\t'+steps_parser.get_ingredient_str(value)+" ==> "+steps_parser.get_ingredient_str(ing_dict))
                 else:
                     for k,v in health_replacement[key].items():
                         ing_dict = {'quantity':value['quantity'],'unit':value['unit'],'name':v[randrange(len(v))]}
-                        print('\t'+get_ingredient_str(value)+" ==> "+get_ingredient_str(ing_dict))
+                        print('\t'+steps_parser.get_ingredient_str(value)+" ==> "+steps_parser.get_ingredient_str(ing_dict))
+    
+    print(" ")
+    print("The new transformed recipe is as following:")
+    print(" ")
+    print(steps_parser.print_steps_data(steps_data))
 
-def get_ingredient_str(ing_dict):
-    ing_str = ''
-    if ing_dict['unit'] == '':
-        ing_str = ing_dict['name']
-    else:
-        #print('\t'+str(ing_dict['quantity']) + ' ' + ing_dict['unit']+ ' ' + ing_dict['name'])
-        ing_str = str(ing_dict['quantity']) + ' ' + ing_dict['unit']+ ' ' + ing_dict['name']
-    return ing_str
+
 
 test_url = 'https://www.allrecipes.com/recipe/150273/spicy-pimento-cheese-sandwiches-with-avocado-and-bacon/'
 #test_url = 'https://www.allrecipes.com/recipe/143809/best-steak-marinade-in-existence/'
