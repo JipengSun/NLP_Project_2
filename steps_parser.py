@@ -85,7 +85,8 @@ def print_steps_data(steps_data):
         print("Step "+str(index) + ":")
         print(step_data['original_text'])
         print(" ")
-        print("The ingredients used in this step: ")
+        if len(step_data['ingredients']) != 0:
+            print("The ingredients used in this step: ")
         for ing_dict in step_data['ingredients']:
             print('\t'+get_ingredient_str(ing_dict))
         index += 1
