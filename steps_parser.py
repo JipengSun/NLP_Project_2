@@ -229,3 +229,27 @@ def find_ingredient_from_step(ingredients_list,step_list):
         for ingredient in ingredients_list:
             if ingredient['name'] in step.lower():
                 print(ingredient['name'])
+
+def replace_words_in_str(replacement_list,sentence):
+    print(replacement_list)
+    sentence_tokens = nltk.word_tokenize(sentence.lower())
+    new_sentence = sentence
+    for replacement in replacement_list:
+        word_list = nltk.word_tokenize(replacement[0]['name'].lower())
+        if replacement[0]['name'] != replacement[1]['name']:
+            if replacement[0]['name'] in new_sentence.lower():
+                new_sentence = new_sentence.replace(replacement[0]['name'],replacement[1]['name'])
+            else:
+                new_sentence = find_most_common_str(replacement,new_sentence)
+    return new_sentence
+
+def find_most_common_str(replacement,new_sentence):
+    rptokens = nltk.word_tokenize(replacement[0]['name'])
+    longest_sentence = ''
+    first = True
+    for i in range(len(rptokens)):
+        if(rptokens[i]) in new_sentence and first:
+            for j in range(len(rptokens)-i):
+                if ' '.join(rptokens[i:i+j]) in new_sentence:
+                    longest_sentence = ' '.join(rptokens[i:i+j])
+    return longest_sentence

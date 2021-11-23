@@ -106,18 +106,21 @@ def construct_new_steps(steps_data,new_ingredients):
         'cooking_time':[]
         }
         new_step_data = []
+        new_step_text = step_data['original_text']
         for ingredient_data in step_data['ingredients']:
             for replacement in new_ingredients:
                 if replacement[0] == ingredient_data:
                     ingredient_data = replacement[1]
             new_step_data.append(ingredient_data)
+            
+        new_step_text = steps_parser.replace_words_in_str(new_ingredients,new_step_text)
         
-
+        step_structure['original_text'] = new_step_text
         step_structure['ingredients'] = new_step_data
         step_structure['tools'] = step_data['tools']
         step_structure['methods'] = step_data['methods']
         step_structure['cooking_time'] = step_data['cooking_time']
-        
+
         new_steps_data.append(step_structure)
     #print(new_steps_data)
     return new_steps_data
