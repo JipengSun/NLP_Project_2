@@ -122,18 +122,20 @@ def make_indian(recipe):
     return
 
 def make_kosher(recipe_url):
-    print("\n")
+    clearConsole()
     changes = []
     unkosher = ['pork', "prosciutto", "shrimp", 'lobster', 'crab']
     meats_dict = ['chicken', 'beef', 'lamb', 'fish', 'salmon']
     dairy_dict = ['cheese', 'milk', 'cream']
-    meat_alternatives = ['tofu', 'beans', 'lentils']
+    meat_alternatives = ['Tofu', 'Seitan']
     #get type of alternative
     print("Do you want this dish to be 0: meat, 1: dairy, or 2: parve?\n")
     dish = input_check('num', 2)
     dish = int(dish)
 
     recipe_data = get_recipe_json.get_recipe_json(recipe_url)
+    steps_data = steps_parser.parse_step_data(recipe_data)
+
 
     recipe_name = recipe_data['name']
     
@@ -189,6 +191,7 @@ def make_kosher(recipe_url):
                             
 
             #fix step
+        print("Changes: \n")
         for change in changes:
             print(change)
 
@@ -208,7 +211,19 @@ def make_kosher(recipe_url):
         recipe_data['name'] = recipe_name
 
 
-    print(recipe_data)
+    print(removed_unkosh)
+    for step in range(len(steps_data)):
+        for meat in removed_unkosh:
+    
+            if meat.lower() in steps_data[step]['original_text'].lower():
+                steps_data[step]['original_text'] = steps_data[step]['original_text'].lower().replace(meat.lower(), meat_alt)
+   
+ 
+    print("\n\nIngredients: \n")
+    for ingredient in recipe_data['ingredients']:
+        print(ingredient['name'])
+    print("\n\n")
+    steps_parser.print_steps_data(steps_data)
 
     return
 
@@ -228,7 +243,7 @@ def scale_recipe(recipe, scale):
     return
 
 
-make_vegetarian('https://www.allrecipes.com/recipe/172060/hummus-and-prosciutto-wrap/')
+make_kosher('https://www.allrecipes.com/recipe/172060/hummus-and-prosciutto-wrap/')
 # make_vegetarian('https://www.allrecipes.com/recipe/172060/hummus-and-prosciutto-wrap/')
 
 test_url = 'https://www.allrecipes.com/recipe/150273/spicy-pimento-cheese-sandwiches-with-avocado-and-bacon/'
