@@ -25,7 +25,7 @@ def input_check(type, bound):
 
 def make_vegetarian(recipe_url):
     meats_dict = ['chicken', 'beef', 'pork', 'lamb', 'fish', 'salmon', 'Prosciutto']
-    meat_alternatives = ['tofu', 'beans', 'lentils']
+    meat_alternatives = ['Tofu', 'Seitan']
     #get type of alternative
 
     print("\nWhat kind of meat alternative would you like? (enter number)\n")
@@ -36,21 +36,23 @@ def make_vegetarian(recipe_url):
     meat_alt = meat_alternatives[int(meat_alt)]
 
     #get recipe
-    recipe_data = get_recipe_json.get_recipe_json(recipe_url)
+    recipe_data_ = get_recipe_json.get_recipe_json(recipe_url)
+    steps_data = steps_parser.parse_step_data(recipe_data_)
+
     
 
 
 
     #fix name
-    recipe_name = recipe_data['name']
+    recipe_name = recipe_data_['name']
     removed_meats = []
     for meat in meats_dict:
         recipe_name = recipe_name.replace(meat, meat_alt)
         removed_meats.append(meat)
-    recipe_data['name'] = recipe_name
+    recipe_data_['name'] = recipe_name
 
     #fix ingredients
-    for ingredient in recipe_data['ingredients']:
+    for ingredient in recipe_data_['ingredients']:
         for meat in removed_meats:
             if meat.lower() in ingredient['name'].lower():
                 ingredient['name'] = meat_alt
@@ -58,9 +60,17 @@ def make_vegetarian(recipe_url):
                 ingredient['unit'] = ''
                 ingredient['quantity'] = ''
 
-    print(recipe_data)
+    
     #fix steps
-   
+    # print(steps_data)
+    for step in range(len(steps_data)):
+        for meat in removed_meats:
+    
+            if meat.lower() in steps_data[step]['original_text'].lower():
+                steps_data[step]['original_text'] = steps_data[step]['original_text'].lower().replace(meat.lower(), meat_alt)
+
+
+    steps_parser.print_steps_data(steps_data)
 
     
     #go through ingredients, replace meats with selected alternative [maybe]
@@ -200,13 +210,14 @@ def scale_recipe(recipe, scale):
     return
 
 
-make_kosher('https://www.allrecipes.com/recipe/172060/hummus-and-prosciutto-wrap/')
+make_vegetarian('https://www.allrecipes.com/recipe/172060/hummus-and-prosciutto-wrap/')
 # make_vegetarian('https://www.allrecipes.com/recipe/172060/hummus-and-prosciutto-wrap/')
 
 test_url = 'https://www.allrecipes.com/recipe/150273/spicy-pimento-cheese-sandwiches-with-avocado-and-bacon/'
 
-recipe_data = get_recipe_json.get_recipe_json(test_url)
+# recipe_data = get_recipe_json.get_recipe_json(test_url)
 
 # make_healthy(recipe_data)
 
-scale_recipe(recipe_data)
+# scale_recipe(recipe_data)
+
