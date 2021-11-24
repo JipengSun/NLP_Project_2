@@ -251,7 +251,15 @@ def scale_recipe(recipe_data, scale):
                 new_step['ingredients'][i]['quantity'] = new_step['ingredients'][i]['quantity']*scale
         if len(new_step['cooking_time'])!=0:
             for i, cooking_time in enumerate(new_step['cooking_time']):
-                new_step['cooking_time'][i] = new_step['cooking_time'][i]*scale*0.5
+                time_tokens = nltk.word_tokenize(cooking_time)
+                unit = ''
+                for tk in time_tokens:
+                    if tk.isdigit():
+                        ct = float(tk) * scale*0.5
+                    else:
+                        unit = tk
+                times = str(ct) + ' ' + unit
+                new_step['cooking_time'][i] = times
 
         new_steps.append(new_step)
     steps_parser.print_steps_data(new_steps)
@@ -265,8 +273,8 @@ def scale_recipe(recipe_data, scale):
 # make_kosher('https://www.allrecipes.com/recipe/172060/hummus-and-prosciutto-wrap/')
 # make_vegetarian('https://www.allrecipes.com/recipe/172060/hummus-and-prosciutto-wrap/')
 
-test_url = 'https://www.allrecipes.com/recipe/150273/spicy-pimento-cheese-sandwiches-with-avocado-and-bacon/'
-
+#test_url = 'https://www.allrecipes.com/recipe/150273/spicy-pimento-cheese-sandwiches-with-avocado-and-bacon/'
+test_url = 'https://www.allrecipes.com/recipe/172060/hummus-and-prosciutto-wrap/'
 recipe_data = get_recipe_json.get_recipe_json(test_url)
 
 scale_recipe(recipe_data,5)
