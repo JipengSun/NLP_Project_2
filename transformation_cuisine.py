@@ -254,4 +254,4 @@ def get_indian_recipe(url):
     print("\nThe step-wise transformation of the recipe is ")
     print(list_stepwise_ing)
 
-get_indian_recipe("https://www.allrecipes.com/recipe/276206/stuffed-turkey-meatloaf/")
+# get_indian_recipe("https://www.allrecipes.com/recipe/276206/stuffed-turkey-meatloaf/")

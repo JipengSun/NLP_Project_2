@@ -163,7 +163,7 @@ def make_kosher(recipe_url, dairy_free = 0):
                         print("What kind of meat substitute do you want?\n")
                         for alt in range(len(meat_alternatives)):
                             print(str(alt)+ ": " + meat_alternatives[alt])
-                        meat_alt = input_check('num', 2)
+                        meat_alt = input_check('num', 1)
                         meat_alt = meat_alternatives[int(meat_alt)]
                     replaced = True
                 removed_unkosh.append(unkosher[thing])
