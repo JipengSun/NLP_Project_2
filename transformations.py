@@ -262,7 +262,6 @@ def scale_recipe(recipe_data, scale):
 
 
 # make_kosher('https://www.allrecipes.com/recipe/172060/hummus-and-prosciutto-wrap/')
-=======
 # make_kosher('https://www.allrecipes.com/recipe/172060/hummus-and-prosciutto-wrap/')
 # make_vegetarian('https://www.allrecipes.com/recipe/172060/hummus-and-prosciutto-wrap/')
 
