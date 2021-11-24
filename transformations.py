@@ -5,6 +5,7 @@ from nltk.probability import DictionaryConditionalProbDist
 import get_recipe_json
 import steps_parser
 import healthy_transformation
+import transformation_cuisine
 import string
 import os
 
@@ -110,7 +111,8 @@ def make_healthy(recipe_data):
         
 
 
-def make_indian(recipe):
+def make_indian(url):
+    transformation_cuisine.get_indian_recipe(url)
     #remove all spices, replace with indian spices
     #[remove certain meats, replace with others?]
 
@@ -258,7 +260,10 @@ def scale_recipe(recipe_data, scale):
     return
 
 
-#make_kosher('https://www.allrecipes.com/recipe/172060/hummus-and-prosciutto-wrap/')
+
+# make_kosher('https://www.allrecipes.com/recipe/172060/hummus-and-prosciutto-wrap/')
+=======
+# make_kosher('https://www.allrecipes.com/recipe/172060/hummus-and-prosciutto-wrap/')
 # make_vegetarian('https://www.allrecipes.com/recipe/172060/hummus-and-prosciutto-wrap/')
 
 test_url = 'https://www.allrecipes.com/recipe/150273/spicy-pimento-cheese-sandwiches-with-avocado-and-bacon/'
