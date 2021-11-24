@@ -237,18 +237,34 @@ def make_dairy_free(recipe):
 
 
 ### optional
-def scale_recipe(recipe, scale):
+def scale_recipe(recipe_data, scale):
     # scale (float to multiply amounts by)
-    steps_parser.parse_step_data(recipe)
+    steps_data = steps_parser.parse_step_data(recipe_data)
+    new_steps = []
+    for step_data in steps_data:
+        new_step = step_data
+        for i,ingredient in enumerate(new_step['ingredients']):
+            if new_step['ingredients'][i]['quantity']!='':
+                new_step['ingredients'][i]['quantity'] = new_step['ingredients'][i]['quantity']*scale
+        if len(new_step['cooking_time'])!=0:
+            for i, cooking_time in enumerate(new_step['cooking_time']):
+                new_step['cooking_time'][i] = new_step['cooking_time'][i]*scale*0.5
+
+        new_steps.append(new_step)
+    steps_parser.print_steps_data(new_steps)
+
+
     return
 
 
-make_kosher('https://www.allrecipes.com/recipe/172060/hummus-and-prosciutto-wrap/')
+#make_kosher('https://www.allrecipes.com/recipe/172060/hummus-and-prosciutto-wrap/')
 # make_vegetarian('https://www.allrecipes.com/recipe/172060/hummus-and-prosciutto-wrap/')
 
 test_url = 'https://www.allrecipes.com/recipe/150273/spicy-pimento-cheese-sandwiches-with-avocado-and-bacon/'
 
-# recipe_data = get_recipe_json.get_recipe_json(test_url)
+recipe_data = get_recipe_json.get_recipe_json(test_url)
+
+scale_recipe(recipe_data,5)
 
 # make_healthy(recipe_data)
 

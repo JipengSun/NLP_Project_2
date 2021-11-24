@@ -136,6 +136,6 @@ test_url = 'https://www.allrecipes.com/recipe/229423/moms-pumpkin-rolls/'
 recipe_data = get_recipe_json.get_recipe_json(test_url)
 steps_data = steps_parser.parse_step_data(recipe_data)
 
-make_healthy(recipe_data,steps_data)
+#make_healthy(recipe_data,steps_data)
 
 #print(recipe_data)
